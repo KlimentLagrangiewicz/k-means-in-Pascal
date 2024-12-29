@@ -1,0 +1,9 @@
+*.exe
+*.o
+*.out
+*.ppu
+
+/based-k-means
+
+/bin/
+/obj/
