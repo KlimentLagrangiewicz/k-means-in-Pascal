@@ -11,13 +11,14 @@ interface
 		intArray = array of integer;
 		realMatrix = array of realArray;
 
-	function get_distance(x, y: realArray): real;
+	function get_distance(const x, y: realArray): real;
 	procedure scaling(var x: realMatrix; const n, m: integer);
 	procedure k_means(const _x: realMatrix; y: intArray; const n, m, k: integer);
 
+
 implementation
 
-	function get_distance(x, y: realArray): real;
+	function get_distance(const x, y: realArray): real;
 	var
 		i: integer;
 		d, s: real;
@@ -53,7 +54,7 @@ implementation
 		end;
 	end;
 	
-	function constr(x: intArray; val: integer; s: integer): boolean;
+	function constr(const x: intArray; const val, s: integer): boolean;
 	var
 		i, c: integer;
 	begin
@@ -72,7 +73,7 @@ implementation
 			x[i] := y[i];
 	end;
 		
-	function det_cores(x: realMatrix; const n, m, k: integer): realMatrix;
+	function det_cores(const x: realMatrix; const n, m, k: integer): realMatrix;
 	var
 		hr, min, sec, ms: Word;
 		i, number: integer;
@@ -114,8 +115,8 @@ implementation
 				min := cur;
 				res := i;
 			end;
+		end;
 		get_cluster := res;
-		end; 
 	end;
 	
 	procedure iasz(var x: intArray);
@@ -208,4 +209,5 @@ implementation
 		repeat flag := check_partition(x, c, y, nums, n, m, k);
 		until flag;
 	end;
+
 end.

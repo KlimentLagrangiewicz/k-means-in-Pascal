@@ -3,23 +3,27 @@ TARGET      = based-k-means
 PC          = fpc
 
 SRCDIR      = src
+BINDIR      = bin
 
-CFLAGS      = -O3
+CFLAGS      = -O4 -Xs
 
 
 .PHONY: all
 all: remove $(TARGET) clean
 
-$(TARGET):
-	$(PC) $(SRCDIR)/main.pas $(CFLAGS) -o./$(TARGET)
+$(TARGET): $(BINDIR)
+	$(PC) $(SRCDIR)/main.pas $(CFLAGS) -o./$(BINDIR)/$(TARGET)
 
 windows: remove build_win clean
 
-build_win:
-	$(PC) $(BINDIR)/main.pas -o./$(TARGET).exe
+build_win: $(BINDIR)
+	$(PC) $(SRCDIR)/main.pas -o./$(BINDIR)/$(TARGET).exe
+
+$(BINDIR):
+	mkdir -p $@
 
 clean:
-	rm -f -f ./*.ppu ./*.o
-	
+	$(RM) -rf $(BINDIR)/*.ppu $(BINDIR)/*.o
+
 remove:
-	rm -f ./*.ppu ./*.o $(TARGET) $(TARGET).exe
+	$(RM) -rf $(BINDIR)/*.ppu $(BINDIR)/*.o $(BINDIR)/$(TARGET) $(BINDIR)/$(TARGET).exe $(BINDIR)

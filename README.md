@@ -46,8 +46,8 @@ Building from source (Windows):
 ```
 make windows
 ```
-If building was ok, you can find executable file in current directory.  
+If building was ok, you can find executable file in `bin` subdirectory.  
 Run the program:
 ```
-./based-k-means ./datasets/iris/data.txt 150 4 3 ./datasets/iris/new_result.txt ./datasets/iris/res.txt
+./bin/based-k-means ./datasets/iris/data.txt 150 4 3 ./datasets/iris/new_result.txt ./datasets/iris/res.txt
 ```
