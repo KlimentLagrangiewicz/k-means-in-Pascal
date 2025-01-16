@@ -1,10 +1,7 @@
 unit kmeans;
 
 
-
 interface
-	
-	uses sysutils;
 	
 	type
 		realArray = array of real;
@@ -15,9 +12,10 @@ interface
 	procedure scaling(var x: realMatrix; const n, m: integer);
 	procedure k_means(const _x: realMatrix; y: intArray; const n, m, k: integer);
 
-
 implementation
 
+	uses sysutils;
+	
 	function get_distance(const x, y: realArray): real;
 	var
 		i: integer;
@@ -54,18 +52,18 @@ implementation
 		end;
 	end;
 	
-	function constr(const x: intArray; const val, s: integer): boolean;
+	function not_constr(const x: intArray; const val: integer; s: integer): boolean;
 	var
-		i, c: integer;
+		flag: boolean;
 	begin
-		c := 0;
-		for i := 0 to s do
-			if (x[i] <> val) then 
-			inc(c);
-		constr := c <> s;
+		flag := true;
+		while (s > 0) and flag do
+			if x[s - 1] = val then flag := false
+			else dec(s);
+		not_constr := flag;
 	end;
 	
-	procedure realcpy(var x: realArray; y: realArray);
+	procedure realcpy(var x: realArray; const y: realArray);
 	var
 		i: integer;
 	begin
@@ -87,7 +85,7 @@ implementation
 		for i := 1 to k-1 do
 		begin
 			repeat number := random(n);
-			until constr(nums, number, i);
+			until not_constr(nums, number, i);
 			nums[i] := number;
 		end;
 		setLength(res, k);
@@ -134,8 +132,7 @@ implementation
 		for i := low(x) to high(x) do
 			x[i] := 0.0;
 	end;
-	
-	
+		
 	procedure det_start_partition(const x, c: realMatrix; y, nums: intArray; const n, m, k: integer);
 	var
 		i, l: integer;
@@ -169,7 +166,6 @@ implementation
 		end;
 	end;
 	
-	
 	function check_partition(const x: realMatrix; c: realMatrix; y, nums: intArray; const n, m, k: integer): boolean;
 	var
 		i, l: integer;
@@ -177,17 +173,16 @@ implementation
 	begin
 		calc_cores(x, c, y, nums, n, m, k);
 		iasz(nums);
-		flag := false;
+		flag := true;
 		for i := 0 to n-1 do
 		begin
 			l := get_cluster(x[i], c, m, k);
-			if (y[i] <> l) then flag := true;
+			if (y[i] <> l) then flag := false;
 			y[i] := l;
 			inc(nums[l]);
 		end;
 		check_partition := flag;	
 	end;
-	
 	
 	procedure k_means(const _x: realMatrix; y: intArray; const n, m, k: integer);
 	var
