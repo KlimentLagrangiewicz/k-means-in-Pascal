@@ -45,10 +45,11 @@ implementation
 				exx := exx + x[i][j] * x[i][j];
 			end;
 			ex := ex / n;
-			exx := exx / n;
-			exx := sqrt(exx - ex * ex);
+			exx := exx / n - ex * ex;
+			if exx <= 0.0 then exx := 1.0
+			else exx := 1.0 / sqrt(exx);
 			for i := 0 to n-1 do
-				x[i][j] := (x[i][j] - ex) / exx;
+				x[i][j] := (x[i][j] - ex) * exx;
 		end;
 	end;
 	
